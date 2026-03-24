@@ -1,4 +1,5 @@
-# ── Launch Template (Bottlerocket + IMDSv2 + encrypted EBS) ──────────────────
+############ Template (Bottlerocket + IMDSv2 + encrypted EBS) ############
+
 resource "aws_launch_template" "nodes" {
   name_prefix = "${local.cluster_name}-nodes-"
   description = "EKS node launch template — IMDSv2 required, encrypted gp3"
@@ -29,14 +30,16 @@ resource "aws_launch_template" "nodes" {
   }
 }
 
-# ── Managed Node Group ────────────────────────────────────────────────────────
+############ Managed Node Group ############
+
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "${local.cluster_name}-nodes"
   node_role_arn   = aws_iam_role.node_group.arn
   subnet_ids      = var.private_subnet_ids
 
-  # Bottlerocket — security-hardened OS, read-only root FS, automatic updates
+############ Bottlerocket security-hardened OS, read-only root FS, automatic updates ############
+
   ami_type       = "BOTTLEROCKET_x86_64"
   instance_types = var.node_instance_types
 

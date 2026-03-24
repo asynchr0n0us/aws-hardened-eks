@@ -31,6 +31,7 @@ spec:
           startswith(image, registry)
         }
 ---
+
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sApprovedRegistries
 metadata:

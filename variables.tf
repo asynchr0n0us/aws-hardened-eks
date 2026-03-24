@@ -1,4 +1,5 @@
-# ── General ───────────────────────────────────────────────────────────────────
+############ General ############
+
 variable "aws_region" {
   description = "AWS region"
   type        = string
@@ -18,7 +19,8 @@ variable "environment" {
   }
 }
 
-# ── Networking ────────────────────────────────────────────────────────────────
+############ Networking ############
+
 variable "vpc_id" {
   description = "VPC ID where EKS will be deployed"
   type        = string
@@ -40,7 +42,8 @@ variable "allowed_cidrs" {
   default     = []
 }
 
-# ── EKS ───────────────────────────────────────────────────────────────────────
+############ EKS ############
+
 variable "kubernetes_version" {
   description = "Kubernetes version"
   type        = string
@@ -51,7 +54,7 @@ variable "log_retention_days" {
   type        = number
 }
 
-# ── Node Group ────────────────────────────────────────────────────────────────
+############ Node Group ############
 variable "node_instance_types" {
   description = "EC2 instance types for node group"
   type        = list(string)
@@ -77,7 +80,7 @@ variable "node_disk_size_gb" {
   type        = number
 }
 
-# ── Helm chart versions ───────────────────────────────────────────────────────
+############ Helm chart versions ############
 variable "falco_chart_version" {
   description = "Falco Helm chart version"
   type        = string
@@ -103,7 +106,7 @@ variable "vault_chart_version" {
   type        = string
 }
 
-# ── Vault ─────────────────────────────────────────────────────────────────────
+############ Vault ############
 variable "vault_storage_size" {
   description = "Vault Raft storage PVC size (e.g. 10Gi)"
   type        = string
@@ -129,7 +132,7 @@ variable "vault_memory_limit" {
   type        = string
 }
 
-# ── Observability / alerting ──────────────────────────────────────────────────
+############ Observability / alerting ############
 variable "slack_webhook_url" {
   description = "Slack webhook URL for Falco alerts"
   type        = string

@@ -1,6 +1,5 @@
-# ────────────────────────────────────────────────────────────────────────────
-# IAM — EKS Control Plane Role
-# ────────────────────────────────────────────────────────────────────────────
+############ IAM EKS Control Plane Role ############
+
 resource "aws_iam_role" "eks_cluster" {
   name        = "${local.cluster_name}-cluster-role"
   description = "EKS control plane role"
@@ -24,9 +23,9 @@ resource "aws_iam_role_policy_attachment" "eks_cluster" {
   policy_arn = each.value
 }
 
-# ────────────────────────────────────────────────────────────────────────────
-# IAM — Node Group Role (least privilege)
-# ────────────────────────────────────────────────────────────────────────────
+
+############ IAM Node Group Role (least privilege) ############
+
 resource "aws_iam_role" "node_group" {
   name        = "${local.cluster_name}-node-role"
   description = "EKS node group role — least privilege"
@@ -55,10 +54,10 @@ resource "aws_iam_role_policy_attachment" "node_group" {
   policy_arn = each.value
 }
 
-# ────────────────────────────────────────────────────────────────────────────
-# OIDC Provider — enables IRSA (IAM Roles for Service Accounts)
-# tls provider fetches the thumbprint automatically
-# ────────────────────────────────────────────────────────────────────────────
+
+############ OIDC Provider (IAM Roles for Service Accounts) ############
+
+
 data "tls_certificate" "eks" {
   url = aws_eks_cluster.main.identity[0].oidc[0].issuer
 }
@@ -69,9 +68,9 @@ resource "aws_iam_openid_connect_provider" "eks" {
   thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
 }
 
-# ────────────────────────────────────────────────────────────────────────────
-# Local helper — OIDC issuer without https:// prefix (used in conditions)
-# ────────────────────────────────────────────────────────────────────────────
+
+############ Remove https:// prefix on OIDC url ############
+
 locals {
   oidc_issuer = replace(
     aws_eks_cluster.main.identity[0].oidc[0].issuer,

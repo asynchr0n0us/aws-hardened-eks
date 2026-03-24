@@ -24,6 +24,7 @@ spec:
           msg := sprintf("Container '%v' must not run as root (UID 0)", [container.name])
         }
 ---
+
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sNoRoot
 metadata:

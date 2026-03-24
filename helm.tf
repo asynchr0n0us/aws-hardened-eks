@@ -1,4 +1,4 @@
-# ── Falco — runtime security (eBPF driver) ───────────────────────────────────
+############ Falco runtime security (eBPF driver) ############
 resource "helm_release" "falco" {
   name             = "falco"
   repository       = "https://falcosecurity.github.io/charts"
@@ -16,7 +16,7 @@ resource "helm_release" "falco" {
   depends_on = [aws_eks_node_group.main]
 }
 
-# ── Trivy Operator — continuous image vulnerability scanning ──────────────────
+############ Trivy image vulnerability scanning ############
 resource "helm_release" "trivy_operator" {
   name             = "trivy-operator"
   repository       = "https://aquasecurity.github.io/helm-charts/"
@@ -32,7 +32,7 @@ resource "helm_release" "trivy_operator" {
   depends_on = [aws_eks_node_group.main]
 }
 
-# ── OPA Gatekeeper — policy enforcement (admission controller) ────────────────
+############ OPA Gatekeeper container no root policy enforcement ############
 resource "helm_release" "gatekeeper" {
   name             = "gatekeeper"
   repository       = "https://open-policy-agent.github.io/gatekeeper/charts"
@@ -48,7 +48,7 @@ resource "helm_release" "gatekeeper" {
   depends_on = [aws_eks_node_group.main]
 }
 
-# ── External Secrets Operator — sync secrets from AWS Secrets Manager ─────────
+############ External Secrets sync secrets from AWS Secrets Manager ############
 resource "helm_release" "external_secrets" {
   name             = "external-secrets"
   repository       = "https://charts.external-secrets.io"

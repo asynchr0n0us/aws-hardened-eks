@@ -1,5 +1,6 @@
-# Default deny all ingress and egress for all namespaces
-# Apply per namespace — explicit allow policies must be added alongside this
+# Deny all ingress and egress for all namespaces
+# Apply per namespace explicit allow policies
+
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -11,7 +12,9 @@ spec:
     - Ingress
     - Egress
 ---
+
 # Allow DNS egress (required for all pods)
+
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -28,7 +31,9 @@ spec:
         - protocol: TCP
           port: 53
 ---
-# Example: allow app pods to reach database namespace
+
+# Allow app pods to reach database namespace
+
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:

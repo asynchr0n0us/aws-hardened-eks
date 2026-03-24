@@ -1,4 +1,5 @@
-# ── KMS key for Vault auto-unseal ────────────────────────────────────────────
+############ KMS key for Vault ############
+
 resource "aws_kms_key" "vault_unseal" {
   description             = "Vault auto-unseal — ${local.cluster_name}"
   deletion_window_in_days = 7
@@ -10,7 +11,8 @@ resource "aws_kms_alias" "vault_unseal" {
   target_key_id = aws_kms_key.vault_unseal.key_id
 }
 
-# ── IAM Role for Vault (IRSA — KMS access only) ───────────────────────────────
+############ IAM Role for Vault ############
+
 resource "aws_iam_role" "vault" {
   name        = "${local.cluster_name}-vault-role"
   description = "Vault IRSA role — KMS unseal only"
@@ -52,7 +54,8 @@ resource "aws_iam_role_policy" "vault_kms" {
   })
 }
 
-# ── HashiCorp Vault — HA mode, Raft storage, auto-unseal via KMS ──────────────
+############ HashiCorp Vault HA mode ############
+
 resource "helm_release" "vault" {
   name             = "vault"
   repository       = "https://helm.releases.hashicorp.com"

@@ -14,7 +14,8 @@ terraform {
   }
 }
 
-# ── Providers ─────────────────────────────────────────────────────────────────
+############ Providers ############
+
 provider "aws" {
   region = var.aws_region
   default_tags { tags = local.common_tags }
@@ -34,12 +35,16 @@ provider "helm" {
   }
 }
 
-# ── Data sources ──────────────────────────────────────────────────────────────
+
+############ Data sources ############
+
 data "aws_caller_identity" "current" {}
 data "aws_eks_cluster"      "main"  { name = aws_eks_cluster.main.name }
 data "aws_eks_cluster_auth" "main"  { name = aws_eks_cluster.main.name }
 
-# ── Locals ────────────────────────────────────────────────────────────────────
+
+############ Locals value calc ############
+
 locals {
   cluster_name = "${var.project_name}-${var.environment}"
   account_id   = data.aws_caller_identity.current.account_id

@@ -1,4 +1,4 @@
-# ── KMS key for EKS secrets encryption ───────────────────────────────────────
+############ KMS key EKS secrets encryption ############
 resource "aws_kms_key" "eks" {
   description             = "EKS cluster secrets encryption — ${local.cluster_name}"
   deletion_window_in_days = 7
@@ -10,7 +10,7 @@ resource "aws_kms_alias" "eks" {
   target_key_id = aws_kms_key.eks.key_id
 }
 
-# ── Security Group ────────────────────────────────────────────────────────────
+############ Security Group ############
 resource "aws_security_group" "eks_cluster" {
   name        = "${local.cluster_name}-cluster-sg"
   description = "EKS cluster control plane security group"
@@ -25,7 +25,7 @@ resource "aws_security_group" "eks_cluster" {
   }
 }
 
-# ── EKS Cluster ───────────────────────────────────────────────────────────────
+############ EKS Cluster ############
 resource "aws_eks_cluster" "main" {
   name     = local.cluster_name
   version  = var.kubernetes_version
@@ -52,7 +52,7 @@ resource "aws_eks_cluster" "main" {
   depends_on = [aws_iam_role_policy_attachment.eks_cluster]
 }
 
-# ── CloudWatch Log Group for EKS control plane logs ──────────────────────────
+############ CloudWatch Log Group for EKS control plane ############
 resource "aws_cloudwatch_log_group" "eks" {
   name              = "/aws/eks/${local.cluster_name}/cluster"
   retention_in_days = var.log_retention_days
