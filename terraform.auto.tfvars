@@ -8,7 +8,7 @@ project_name = "myplatform"
 environment  = "staging"
 
 ############ Networking — fill with your VPC/subnet IDs ############
-vpc_id             = "vpc-id_here"
+vpc_id = "vpc-id_here"
 private_subnet_ids = [
   "subnet-id_here",
   "subnet-id_here",

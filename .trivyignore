@@ -1,0 +1,3 @@
+# Suppress AWS-0104: EKS control plane requires unrestricted egress for node communication
+# This is a deliberate design choice for the control plane security group
+AVD-AWS-0104
