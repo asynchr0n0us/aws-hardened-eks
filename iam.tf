@@ -28,7 +28,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster" {
 
 resource "aws_iam_role" "node_group" {
   name        = "${local.cluster_name}-node-role"
-  description = "EKS node group role — least privilege"
+  description = "EKS node group role - least privilege"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

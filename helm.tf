@@ -7,11 +7,30 @@ resource "helm_release" "falco" {
   namespace        = "falco"
   create_namespace = true
 
-  set { name = "driver.kind";                                        value = "ebpf" }
-  set { name = "falcosidekick.enabled";                              value = "true" }
-  set { name = "falcosidekick.config.slack.webhookurl";              value = var.slack_webhook_url }
-  set { name = "falcosidekick.config.slack.minimumpriority";         value = "warning" }
-  set { name = "falcosidekick.config.slack.messageformat";           value = "Falco alert on <{{.Hostname}}> — rule: {{.Rule}}" }
+  set {
+    name  = "driver.kind"
+    value = "ebpf"
+  }
+
+  set {
+    name  = "falcosidekick.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "falcosidekick.config.slack.webhookurl"
+    value = var.slack_webhook_url
+  }
+
+  set {
+    name  = "falcosidekick.config.slack.minimumpriority"
+    value = "warning"
+  }
+
+  set {
+    name  = "falcosidekick.config.slack.messageformat"
+    value = "Falco alert on <{{.Hostname}}> — rule: {{.Rule}}"
+  }
 
   depends_on = [aws_eks_node_group.main]
 }
@@ -25,9 +44,20 @@ resource "helm_release" "trivy_operator" {
   namespace        = "trivy-system"
   create_namespace = true
 
-  set { name = "trivy.ignoreUnfixed";       value = "true" }
-  set { name = "operator.scanJobTimeout";   value = "5m" }
-  set { name = "operator.scanJobsInSameNamespace"; value = "false" }
+  set {
+    name  = "trivy.ignoreUnfixed"
+    value = "true"
+  }
+
+  set {
+    name  = "operator.scanJobTimeout"
+    value = "5m"
+  }
+
+  set {
+    name  = "operator.scanJobsInSameNamespace"
+    value = "false"
+  }
 
   depends_on = [aws_eks_node_group.main]
 }
@@ -41,9 +71,20 @@ resource "helm_release" "gatekeeper" {
   namespace        = "gatekeeper-system"
   create_namespace = true
 
-  set { name = "auditInterval";              value = "30" }
-  set { name = "constraintViolationsLimit";  value = "20" }
-  set { name = "logLevel";                   value = "WARNING" }
+  set {
+    name  = "auditInterval"
+    value = "30"
+  }
+
+  set {
+    name  = "constraintViolationsLimit"
+    value = "20"
+  }
+
+  set {
+    name  = "logLevel"
+    value = "WARNING"
+  }
 
   depends_on = [aws_eks_node_group.main]
 }
@@ -57,7 +98,10 @@ resource "helm_release" "external_secrets" {
   namespace        = "external-secrets"
   create_namespace = true
 
-  set { name = "installCRDs"; value = "true" }
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
 
   depends_on = [aws_eks_node_group.main]
 }

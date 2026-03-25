@@ -1,6 +1,6 @@
 ############ KMS key EKS secrets encryption ############
 resource "aws_kms_key" "eks" {
-  description             = "EKS cluster secrets encryption — ${local.cluster_name}"
+  description             = "EKS cluster secrets encryption - ${local.cluster_name}"
   deletion_window_in_days = 7
   enable_key_rotation     = true
 }
@@ -53,7 +53,9 @@ resource "aws_eks_cluster" "main" {
 }
 
 ############ CloudWatch Log Group for EKS control plane ############
+
 resource "aws_cloudwatch_log_group" "eks" {
   name              = "/aws/eks/${local.cluster_name}/cluster"
   retention_in_days = var.log_retention_days
+  kms_key_id        = aws_kms_key.eks.arn
 }
