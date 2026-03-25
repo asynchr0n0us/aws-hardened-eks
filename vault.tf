@@ -1,7 +1,7 @@
 ############ KMS key for Vault ############
 
 resource "aws_kms_key" "vault_unseal" {
-  description             = "Vault auto-unseal — ${local.cluster_name}"
+  description             = "Vault auto-unseal - ${local.cluster_name}"
   deletion_window_in_days = 7
   enable_key_rotation     = true
 }
@@ -15,7 +15,7 @@ resource "aws_kms_alias" "vault_unseal" {
 
 resource "aws_iam_role" "vault" {
   name        = "${local.cluster_name}-vault-role"
-  description = "Vault IRSA role — KMS unseal only"
+  description = "Vault IRSA role - KMS unseal only"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -106,7 +106,7 @@ resource "helm_release" "vault" {
       # Persistent Raft storage — gp3, encrypted at rest via EBS
       dataStorage = {
         enabled      = true
-        size         = "${var.vault_storage_size}"
+        size         = var.vault_storage_size
         storageClass = "gp3"
       }
 
@@ -127,7 +127,7 @@ resource "helm_release" "vault" {
 
       resources = {
         requests = { cpu = var.vault_cpu_request, memory = var.vault_memory_request }
-        limits   = { cpu = var.vault_cpu_limit,   memory = var.vault_memory_limit }
+        limits   = { cpu = var.vault_cpu_limit, memory = var.vault_memory_limit }
       }
 
       readinessProbe = {
@@ -161,7 +161,7 @@ resource "helm_release" "vault" {
     injector = {
       enabled = true
       resources = {
-        requests = { cpu = "50m",  memory = "64Mi" }
+        requests = { cpu = "50m", memory = "64Mi" }
         limits   = { cpu = "250m", memory = "256Mi" }
       }
     }

@@ -31,6 +31,34 @@ EKS Cluster private API endpoint
 - **Pod Security Standards** — Restricted profile enforced
 - **IRSA** — IAM Roles for Service Accounts (no node-level credentials)
 
+# Prerequisites
+
+- Terraform >= 1.6
+- AWS CLI configured with management account credentials
+- tflint
+- trivy
+- checkov
+- `pre-commit` installed locally
+
+# tflint
+curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+
+# trivy
+sudo apt install wget apt-transport-https gnupg -y
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+echo "deb https://aquasecurity.github.io/trivy-repo/deb generic main" | sudo tee /etc/apt/sources.list.d/trivy.list
+sudo apt update && sudo apt install trivy -y
+
+# checkov
+pip install checkov --break-system-packages
+
+# pre-commit install
+python3 -m
+source /path/to/venv/bin/activate
+pip install pre-commit
+cd /into/the/project/dir
+pre-commit install
+
 # Usage
 
 ```bash

@@ -38,7 +38,7 @@ resource "aws_eks_node_group" "main" {
   node_role_arn   = aws_iam_role.node_group.arn
   subnet_ids      = var.private_subnet_ids
 
-############ Bottlerocket security-hardened OS, read-only root FS, automatic updates ############
+  ############ Bottlerocket security-hardened OS, read-only root FS, automatic updates ############
 
   ami_type       = "BOTTLEROCKET_x86_64"
   instance_types = var.node_instance_types
