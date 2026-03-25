@@ -7,6 +7,7 @@ terraform {
     tls        = { source = "hashicorp/tls",        version = "~> 4.0" }
   }
   backend "s3" {
+    bucket         = "bucket-for-tfstate-here"
     key            = "eks/terraform.tfstate"
     region         = "eu-central-1"
     encrypt        = true
