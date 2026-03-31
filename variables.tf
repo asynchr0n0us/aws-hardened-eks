@@ -3,6 +3,13 @@
 variable "aws_region" {
   description = "AWS region"
   type        = string
+  default     = "eu-west-1"
+}
+
+variable "aws_profile" {
+  description = "AWS profile"
+  type        = string
+  default     = "local_test"
 }
 
 variable "project_name" {

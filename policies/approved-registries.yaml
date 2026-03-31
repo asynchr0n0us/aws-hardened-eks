@@ -45,7 +45,7 @@ spec:
       - kube-system
   parameters:
     registries:
-      - "123456789012.dkr.ecr.eu-central-1.amazonaws.com"
+      - "723298837109.dkr.ecr.eu-central-1.amazonaws.com"
       - "public.ecr.aws"
       - "registry.k8s.io"
       - "quay.io/falcosecurity"

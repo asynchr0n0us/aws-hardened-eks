@@ -3,28 +3,28 @@
 
 ############ General ############
 
-aws_region   = "eu-central-1"
-project_name = "myplatform"
-environment  = "staging"
+aws_region   = "eu-west-1"
+project_name = "eks-hardened"
+environment  = "dev"
 
 ############ Networking — fill with your VPC/subnet IDs ############
-vpc_id = "vpc-id_here"
+vpc_id = "vpc-028caca271b7a9341"
 private_subnet_ids = [
-  "subnet-id_here",
-  "subnet-id_here",
-  "subnet-id_here",
+  "subnet-023811cb261ecd6c7",
+  "subnet-0e73da05e9168ddca",
+  "subnet-07bf7328b54c33d22",
 ]
 
 ############ Public endpoint disabled in prod, allowed in staging for convenience ############
 enable_public_endpoint = true
-allowed_cidrs          = ["ALLOWED_IP_HERE/32"]
+allowed_cidrs          = ["95.233.130.43/32"]
 
 ############ EKS ############
-kubernetes_version = "1.29"
+kubernetes_version = "1.32"
 log_retention_days = 30
 
 ############ Node Group ############
-node_instance_types = ["t3.medium"]
+node_instance_types = ["t3.medium"]  
 node_desired        = 2
 node_min            = 1
 node_max            = 5

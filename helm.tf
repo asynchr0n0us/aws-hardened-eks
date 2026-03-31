@@ -8,8 +8,28 @@ resource "helm_release" "falco" {
   create_namespace = true
 
   set {
+  name  = "image.tag"
+  value = "0.43.0"
+  }
+
+  set {
     name  = "driver.kind"
-    value = "ebpf"
+    value = "modern_ebpf"
+  }
+
+  set {
+    name  = "tty"
+    value = "true"
+  }
+
+  set {
+    name  = "falco.modern_bpf.cpus_for_each_buffer"
+    value = "1"
+  }
+
+  set {
+    name  = "containerSecurityContext.privileged"
+    value = "true"
   }
 
   set {
@@ -31,6 +51,35 @@ resource "helm_release" "falco" {
     name  = "falcosidekick.config.slack.messageformat"
     value = "Falco alert on <{{.Hostname}}> — rule: {{.Rule}}"
   }
+
+
+##fix?
+
+set {
+  name  = "containerSecurityContext.capabilities.add[0]"
+  value = "BPF"
+}
+
+set {
+  name  = "containerSecurityContext.capabilities.add[1]"
+  value = "SYS_PTRACE"
+}
+
+set {
+  name  = "containerSecurityContext.capabilities.add[2]"
+  value = "SYS_RESOURCE"
+}
+
+set {
+  name  = "containerSecurityContext.capabilities.add[3]"
+  value = "PERFMON"
+}
+
+set {
+  name  = "containerSecurityContext.capabilities.add[4]"
+  value = "SYS_ADMIN"
+}
+###
 
   depends_on = [aws_eks_node_group.main]
 }
