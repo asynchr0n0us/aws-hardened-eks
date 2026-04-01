@@ -18,10 +18,10 @@ variable "project_name" {
 }
 
 variable "environment" {
-  description = "Environment name (dev / staging / prod)"
+  description = "Environment name (develop / staging / prod)"
   type        = string
   validation {
-    condition     = contains(["dev", "staging", "prod"], var.environment)
+    condition     = contains(["develop", "staging", "prod"], var.environment)
     error_message = "Environment must be dev, staging or prod."
   }
 }

@@ -1,0 +1,6 @@
+depends_on = [
+  aws_eks_node_group.main,
+  aws_iam_role_policy.vault_kms,
+  aws_iam_openid_connect_provider.eks,
+  null_resource.vault_tls,
+]

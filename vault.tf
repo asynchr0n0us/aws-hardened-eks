@@ -125,6 +125,11 @@ resource "helm_release" "vault" {
         capabilities = { drop = ["ALL"] }
       }
 
+      extraVolumes = [{
+        type = "secret"
+        name = "vault-tls"
+      }]
+
       resources = {
         requests = { cpu = var.vault_cpu_request, memory = var.vault_memory_request }
         limits   = { cpu = var.vault_cpu_limit, memory = var.vault_memory_limit }

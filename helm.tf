@@ -3,14 +3,10 @@ resource "helm_release" "falco" {
   name             = "falco"
   repository       = "https://falcosecurity.github.io/charts"
   chart            = "falco"
-  version          = var.falco_chart_version
+  version          = "8.0.1"
   namespace        = "falco"
   create_namespace = true
-
-  set {
-  name  = "image.tag"
-  value = "0.43.0"
-  }
+  timeout          = 600
 
   set {
     name  = "driver.kind"
@@ -20,11 +16,6 @@ resource "helm_release" "falco" {
   set {
     name  = "tty"
     value = "true"
-  }
-
-  set {
-    name  = "falco.modern_bpf.cpus_for_each_buffer"
-    value = "1"
   }
 
   set {
@@ -51,35 +42,6 @@ resource "helm_release" "falco" {
     name  = "falcosidekick.config.slack.messageformat"
     value = "Falco alert on <{{.Hostname}}> — rule: {{.Rule}}"
   }
-
-
-##fix?
-
-set {
-  name  = "containerSecurityContext.capabilities.add[0]"
-  value = "BPF"
-}
-
-set {
-  name  = "containerSecurityContext.capabilities.add[1]"
-  value = "SYS_PTRACE"
-}
-
-set {
-  name  = "containerSecurityContext.capabilities.add[2]"
-  value = "SYS_RESOURCE"
-}
-
-set {
-  name  = "containerSecurityContext.capabilities.add[3]"
-  value = "PERFMON"
-}
-
-set {
-  name  = "containerSecurityContext.capabilities.add[4]"
-  value = "SYS_ADMIN"
-}
-###
 
   depends_on = [aws_eks_node_group.main]
 }
@@ -149,6 +111,24 @@ resource "helm_release" "external_secrets" {
 
   set {
     name  = "installCRDs"
+    value = "true"
+  }
+
+  depends_on = [aws_eks_node_group.main]
+}
+
+##### Cert Manager ########
+
+resource "helm_release" "cert_manager" {
+  name             = "cert-manager"
+  repository       = "https://charts.jetstack.io"
+  chart            = "cert-manager"
+  version          = "1.17.2"
+  namespace        = "cert-manager"
+  create_namespace = true
+
+  set {
+    name  = "crds.enabled"
     value = "true"
   }
 
