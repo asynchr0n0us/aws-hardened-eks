@@ -54,10 +54,26 @@ resource "helm_release" "trivy_operator" {
   version          = var.trivy_chart_version
   namespace        = "trivy-system"
   create_namespace = true
+  timeout = 600
 
   set {
     name  = "trivy.ignoreUnfixed"
     value = "true"
+  }
+
+  set {
+    name  = "trivy.severity"
+    value = "HIGH\\,CRITICAL"
+  }
+
+  set {
+    name  = "operator.builtInTrivyServer"
+    value = "true"
+  }
+
+  set {
+    name  = "trivy.mode"
+    value = "ClientServer"
   }
 
   set {

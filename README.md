@@ -77,6 +77,45 @@ terraform apply
 # Apply OPA Gatekeeper and network policies
 kubectl apply -f policies/
 ```
+# HashiCorp Valt initialize
+```
+# Init vault-0
+kubectl exec -n vault vault-0 -- vault operator init -tls-skip-verify  #self signed certificate
+
+# Check status
+kubectl exec -n vault vault-0 -- vault status -tls-skip-verify
+
+# Join vault-1 e vault-2 to raft cluster
+kubectl exec -n vault vault-1 -- vault operator raft join -tls-skip-verify https://vault-0.vault-internal:8200
+kubectl exec -n vault vault-2 -- vault operator raft join -tls-skip-verify https://vault-0.vault-internal:8200
+
+# Verify if vault-1, vault-2 has been initialized and unsealed
+kubectl exec -n vault vault-1 -- vault status -tls-skip-verify
+kubectl exec -n vault vault-2 -- vault status -tls-skip-verify
+
+# Browse https://127.0.0.1:8200 and login with root token
+kubectl port-forward svc/vault 8200:8200                                              
+```
+# Falco
+
+```
+# Check alerts
+kubectl logs -n falco -l app.kubernetes.io/name=falco --tail=50 | grep -i "shell\|warning\|critical"
+
+# Realtime stream
+kubectl logs -n falco -l app.kubernetes.io/name=falco -f
+```
+# Trivy
+
+```
+# Get trivy reports
+kubectl get vulnerabilityreports -A
+kubectl get configauditreports -A
+
+# On demand scan
+trivy k8s --report summary
+```
+
 
 # Estimated Monthly Cost
 
